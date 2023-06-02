@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the docker image from dockerfile'
+                echo 'Building the docker image from the dockerfile'
                 sh 'docker build -t jt .'
             }
         }
