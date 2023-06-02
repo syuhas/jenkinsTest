@@ -5,7 +5,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the docker image from dockerfile'
-                sh 'docker build -t "/home/ec2-user/jenkinstest/jt" .'
+                sh 'cd /home/ec2-user/jenkinstest'
+                sh 'docker build -t jt .'
             }
         }
         stage('Test') {
