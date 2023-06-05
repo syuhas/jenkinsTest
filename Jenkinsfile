@@ -9,7 +9,7 @@ pipeline {
         }
         stage('PublishECR') {
             steps {
-                echo "Publish Stage here"
+                echo "Publish Stage here made a change to test"
             }
         }
         stage('Deploy') {
