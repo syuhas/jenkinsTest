@@ -13,9 +13,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo "Deploying to ecr here"     //turn this into a aws connection setup for ecr push
+                echo "Deploying to ecr here"     
                 
             }
         }
-    }   //add a step to push to ecr
-}       //add a step to run a task on ecs
+    }   
+}       
