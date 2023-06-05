@@ -4,19 +4,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the docker image from dockerfile'
-                sh 'docker build -t jt .'
-                sh 'docker run -d -p 80:80 jt'               //run the docker image here
+                echo "Build the docker image here"
             }
         }
-        stage('Test') {
+        stage('PublishECR') {
             steps {
-                sh 'curl ec2-18-207-154-232.compute-1.amazonaws.com'  //test the docker here with a curl to the server then stop the container
-            }
+                echo "Publish Stage"
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying with docker run command...'     //turn this into a aws connection setup for ecr push
+                echo "Deploying to ecr here"     //turn this into a aws connection setup for ecr push
                 
             }
         }
