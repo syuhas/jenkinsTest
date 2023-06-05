@@ -1,6 +1,6 @@
 pipeline {
     agent any
-}
+
     stages {
         stage('Build') {
             steps {
@@ -10,6 +10,7 @@ pipeline {
         stage('PublishECR') {
             steps {
                 echo "Publish Stage here"
+            }
         }
         stage('Deploy') {
             steps {
@@ -17,5 +18,6 @@ pipeline {
                 
             }
         }
+    
     }   
 }       
