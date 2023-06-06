@@ -4,8 +4,15 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Build the docker image here"
-                sh "docker build -t jt ."
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "aws",
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
+                    region: 'us-east-1'
+                ]]) {
+                    sh 'aws ec2 describe-instances'
+                }
             }
         }
         stage('PublishECR') {
