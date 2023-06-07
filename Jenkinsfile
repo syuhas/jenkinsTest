@@ -2,7 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('BuildImage') {
+            steps {
+                sh 'docker build -t jrepo .'
+            }
+        }
+        stage('PublishECR') {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -11,18 +16,22 @@ pipeline {
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
                     region: 'us-east-1'
                 ]]) {
-                    sh 'aws ec2 describe-instances --region us-east-1'
+                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 551796573889.dkr.ecr.us-east-1.amazonaws.com'
+                    sh 'docker tag jrepo:latest 551796573889.dkr.ecr.us-east-1.amazonaws.com/jrepo:latest'
+                    sh 'docker push 551796573889.dkr.ecr.us-east-1.amazonaws.com/jrepo:latest'
                 }
             }
         }
-        stage('PublishECR') {
+        stage('TestRepo') {
             steps {
-                echo "Publish Stage here made a change to test"
+                sh "aws ecr list-images --repository-name jrepo"
+                
             }
         }
-        stage('Deploy') {
+    
+        stage('CleanupServer') {
             steps {
-                echo "Deploying to ecr here"   
+                echo "docker system prune -f -a"
                 
             }
         }
