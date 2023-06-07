@@ -11,7 +11,7 @@ pipeline {
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
                     region: 'us-east-1'
                 ]]) {
-                    sh 'aws ec2 describe-instances'
+                    sh 'aws ec2 describe-instances --region us-east-1'
                 }
             }
         }
