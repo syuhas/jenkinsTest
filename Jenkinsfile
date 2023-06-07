@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('BuildImage') {
             steps {
-                
+                echo "build here"
             }
         }
         stage('PublishECR') {
