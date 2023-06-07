@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('BuildPublishECR') {
+        stage('BuildandPublishECR') {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -21,6 +21,19 @@ pipeline {
         stage('TestRepo') {
             steps {
                 sh "aws ecr list-images --repository-name jrepo --region us-east-1"
+                
+            }
+        }
+        stage('PublishECS') {
+            steps {
+                 withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "aws",
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    sh 'aws ecs update-service --cluster jenkinsDocker --service jenkinsDocker --force-new-deployment --region us-east-1'
+                }
                 
             }
         }
