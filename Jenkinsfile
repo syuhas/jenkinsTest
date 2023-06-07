@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('BuildImage') {
             steps {
-                sh 'docker build -t jrepo .'
+                
             }
         }
         stage('PublishECR') {
@@ -17,6 +17,7 @@ pipeline {
                     region: 'us-east-1'
                 ]]) {
                     sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 551796573889.dkr.ecr.us-east-1.amazonaws.com'
+                    sh 'docker build -t jrepo .'
                     sh 'docker tag jrepo:latest 551796573889.dkr.ecr.us-east-1.amazonaws.com/jrepo:latest'
                     sh 'docker push 551796573889.dkr.ecr.us-east-1.amazonaws.com/jrepo:latest'
                 }
