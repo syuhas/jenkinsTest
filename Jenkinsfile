@@ -14,12 +14,13 @@ pipeline {
                     sh 'docker build -t jrepo .'
                     sh 'docker tag jrepo:latest 551796573889.dkr.ecr.us-east-1.amazonaws.com/jrepo:latest'
                     sh 'docker push 551796573889.dkr.ecr.us-east-1.amazonaws.com/jrepo:latest'
+                    sh 'aws ecs update-service --cluster jenkinsDocker --service jenkinsDocker --force-new-deployment --region us-east-1'
                 }
             }
         }
         stage('TestRepo') {
             steps {
-                sh "aws ecr list-images --repository-name jrepo"
+                sh "aws ecr list-images --repository-name jrepo --region us-east-1"
                 
             }
         }
